@@ -1,0 +1,12 @@
+Aditya1S1_happy.wav - 663596 - 08/05/2023 18:44:49;
+Aditya1S3_sad.wav - 630828 - 08/05/2023 18:44:56;
+Aditya1S2_sad.wav - 647212 - 08/05/2023 18:49:22;
+Aditya1S1_neutral.wav - 688172 - 08/05/2023 18:53:41;
+Aditya1S3_neutral.wav - 524332 - 08/05/2023 19:02:40;
+Aditya1S3_angry.wav - 499756 - 08/05/2023 19:03:49;
+Aditya1S3_happy.wav - 466988 - 08/05/2023 19:04:50;
+Aditya1S2_angry.wav - 606252 - 08/05/2023 19:06:14;
+Aditya2S2_neutral.wav - 679980 - 08/05/2023 19:06:26;
+Aditya1S3_angry.wav - 499756 - 08/05/2023 19:07:05;
+Aditya1S2_neutral.wav - 712748 - 08/05/2023 19:07:25;
+J1S1_angry.wav - 172076 - 08/05/2023 19:11:01;
