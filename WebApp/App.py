@@ -7,9 +7,11 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import pickle
+from joblib import dump, load
+
 # from pyin import pitch
 # import parselmouth
-
+from sklearn.preprocessing import StandardScaler
 import os
 import sys
 import wave
@@ -34,8 +36,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 #from IPython.display import Audio
 
 
-model = pickle.load(
-    open('/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/rfclassfier.pkl', 'rb'))
+model = load('/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/rfmodel.joblib')
 # constants
 starttime = datetime.now()
 
@@ -94,11 +95,13 @@ def get_melspec(audio):
     rgbImage = np.repeat(grayImage[..., np.newaxis], 3, -1)
     return (rgbImage, Xdb)
 
+
 def create_waveplot(data, sr):
     plt.figure(figsize=(10, 3))
    # plt.title('Waveplot for audio with {} emotion'.format(e), size=15)
     librosa.display.waveshow(data, sr=sr)
    # plt.show()
+
 
 def create_spectrogram(data, sr):
     # stft function converts the data into short term fourier transform
@@ -106,7 +109,7 @@ def create_spectrogram(data, sr):
     Xdb = librosa.amplitude_to_db(abs(X))
     plt.figure(figsize=(12, 3))
     #plt.title('Spectrogram for audio with {} emotion'.format(e), size=15)
-    librosa.display.specshow(Xdb, sr=sr, x_axis='time', y_axis='hz')   
+    librosa.display.specshow(Xdb, sr=sr, x_axis='time', y_axis='hz')
     #librosa.display.specshow(Xdb, sr=sr, x_axis='time', y_axis='log')
     plt.colorbar()
     plt.show()
@@ -158,7 +161,7 @@ def create_spectrogram(data, sr):
 #     plt.subplots_adjust(top=0.75)
 
 
-def extract_feature(data):
+def extract_features(data,sample_rate):
     # ZCR - The rate of sign-changes of the signal during the duration of a particular frame
     result = np.array([])
     zcr = np.mean(librosa.feature.zero_crossing_rate(y=data).T, axis=0)
@@ -191,7 +194,7 @@ def get_feature(path):
     data, sample_rate = librosa.load(path, duration=2.5, offset=0.6)
 
     # without augmentation
-    res1 = extract_features(data)
+    res1 = extract_features(data,sample_rate)
     result = np.array(res1)
 
     return result
@@ -207,144 +210,158 @@ def main():
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
     st.markdown("## Upload the file")
-    
+
     with st.container():
         col1, col2 = st.columns(2)
-         # audio_file = None
-         # path = None
+        # audio_file = None
+        # path = None
         with col1:
-                audio_file = st.file_uploader(
-                   "Upload audio file", type=['wav', 'mp3', 'ogg'])
-                if audio_file is not None:
-                    if not os.path.exists("audio"):
-                        os.makedirs("audio")
-                    path = os.path.join("audio", audio_file.name)
-                    if_save_audio = save_audio(audio_file)
-                    if if_save_audio == 1:
-                        st.warning("File size is too large. Try another file.")
-                    elif if_save_audio == 0:
-                        # extract features
-                        # display audio
-                        st.audio(audio_file, format='audio/wav', start_time=0)
-                        samplerate, data = read(path)
+            audio_file = st.file_uploader(
+                "Upload audio file", type=['wav', 'mp3', 'ogg'])
+            if audio_file is not None:
+                if not os.path.exists("audio"):
+                    os.makedirs("audio")
+                path = os.path.join("audio", audio_file.name)
+                if_save_audio = save_audio(audio_file)
+                if if_save_audio == 1:
+                    st.warning("File size is too large. Try another file.")
+                elif if_save_audio == 0:
+                    # extract features
+                    # display audio
+                    st.audio(audio_file, format='audio/wav', start_time=0)
+                    samplerate, data = read(path)
 
-                        trimmed_file = data[np.absolute(data) > 50]
-                        
-                        scipy.io.wavfile.write("trimmed_"+path, samplerate, trimmed_file)
-                        p1=path
-                        path="trimmed_"+path
-                        # try:
-                        #     wav, sr = librosa.load(path)
-                        #     #create_waveplot(wav, sr)
-                        #     create_spectrogram(wav, sr)
-                        #     # # display audio
-                        #     # st.audio(audio_file, format='audio/wav', start_time=0)
-                        # except Exception as e:
-                        #     audio_file = None
-                        #     st.error(
-                        #         f"Error {e} - wrong format of the file. Try another .wav file.")
-                    else:
-                        st.error("Unknown error")
+                    trimmed_file = data[np.absolute(data) > 50]
+
+                    scipy.io.wavfile.write(
+                        "trimmed_"+path, samplerate, trimmed_file)
+                    p1 = path
+                    path = "trimmed_"+path
+                    # try:
+                    #     wav, sr = librosa.load(path)
+                    #     #create_waveplot(wav, sr)
+                    #     create_spectrogram(wav, sr)
+                    #     # # display audio
+                    #     # st.audio(audio_file, format='audio/wav', start_time=0)
+                    # except Exception as e:
+                    #     audio_file = None
+                    #     st.error(
+                    #         f"Error {e} - wrong format of the file. Try another .wav file.")
                 else:
-                    if st.button("Try test file"):
-                        p1="/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/audio_dataset_final/Aditya1S1_angry.wav"
-                        samplerate, data = read(p1)
+                    st.error("Unknown error")
+            else:
+                if st.button("Try test file"):
+                    p1 = "/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/audio_dataset_final/Aditya1S1_angry.wav"
+                    samplerate, data = read(p1)
 
-                        trimmed_file = data[np.absolute(data) > 50]
-                        
-                        scipy.io.wavfile.write("test.wav", samplerate, trimmed_file)
-                        wav, sr = librosa.load("test.wav")
-                        # display audio
-                        st.audio(p1, format='audio/wav', start_time=0)
-                        path = "test.wav"
-                        audio_file = "test"
-    
+                    trimmed_file = data[np.absolute(data) > 50]
+
+                    scipy.io.wavfile.write(
+                        "test.wav", samplerate, trimmed_file)
+                    wav, sr = librosa.load("test.wav")
+                    # display audio
+                    st.audio(p1, format='audio/wav', start_time=0)
+                    path = "test.wav"
+                    audio_file = "test"
+
     with col2:
-                if audio_file is not None:
-                    
-                    # samplerate, data = read(path)
-                    # trimmed_file = data[np.absolute(data) > 50]
-                    # #librosa.output.write_wav(path,data,sr=samplerate)
-                    # scipy.io.wavfile.write(path, samplerate, trimmed_file)
-                    # print(path)
-                    wav, sr = librosa.load(path)
-                    fig = plt.figure(figsize=(10, 2))
-                    fig.set_facecolor('#d1d1e0')
-                    plt.title("Wave-form")
-                    librosa.display.waveshow(wav, sr=44100)
-                    plt.gca().axes.get_yaxis().set_visible(False)
-                    plt.gca().axes.get_xaxis().set_visible(False)
-                    plt.gca().axes.spines["right"].set_visible(False)
-                    plt.gca().axes.spines["left"].set_visible(False)
-                    plt.gca().axes.spines["top"].set_visible(False)
-                    plt.gca().axes.spines["bottom"].set_visible(False)
-                    plt.gca().axes.set_facecolor('#d1d1e0')
-                    st.write(fig)
-                else:
-                    pass
+        if audio_file is not None:
+
+            # samplerate, data = read(path)
+            # trimmed_file = data[np.absolute(data) > 50]
+            # #librosa.output.write_wav(path,data,sr=samplerate)
+            # scipy.io.wavfile.write(path, samplerate, trimmed_file)
+            # print(path)
+            wav, sr = librosa.load(path)
+            fig = plt.figure(figsize=(10, 2))
+            fig.set_facecolor('#d1d1e0')
+            plt.title("Wave-form")
+            librosa.display.waveshow(wav, sr=44100)
+            plt.gca().axes.get_yaxis().set_visible(False)
+            plt.gca().axes.get_xaxis().set_visible(False)
+            plt.gca().axes.spines["right"].set_visible(False)
+            plt.gca().axes.spines["left"].set_visible(False)
+            plt.gca().axes.spines["top"].set_visible(False)
+            plt.gca().axes.spines["bottom"].set_visible(False)
+            plt.gca().axes.set_facecolor('#d1d1e0')
+            st.write(fig)
+        else:
+            pass
 
     if audio_file is not None:
-            st.markdown("## Analyzing...")
-            if not audio_file == "test":
-                st.sidebar.subheader("Audio file")
-                file_details = {"Filename": audio_file.name, "FileSize": audio_file.size}
-                st.sidebar.write(file_details)
+        st.markdown("## Analyzing...")
+        if not audio_file == "test":
+            st.sidebar.subheader("Audio file")
+            file_details = {"Filename": audio_file.name,
+                            "FileSize": audio_file.size}
+            st.sidebar.write(file_details)
 
-            with st.container():
-                col1, col2 = st.columns(2)
-                with col1:
-                    mfcc_features = librosa.feature.mfcc(y=wav, sr=sr)
-                    fig = plt.figure(figsize=(10, 2))
-                    fig.set_facecolor('#d1d1e0')
-                    plt.title("MFCCs")
-                    librosa.display.specshow(mfcc_features, sr=sr, x_axis='time')
-                    plt.gca().axes.get_yaxis().set_visible(False)
-                    plt.gca().axes.spines["right"].set_visible(False)
-                    plt.gca().axes.spines["left"].set_visible(False)
-                    plt.gca().axes.spines["top"].set_visible(False)
-                    st.write(fig)
+        with st.container():
+            col1, col2 = st.columns(2)
+            with col1:
+                mfcc_features = librosa.feature.mfcc(y=wav, sr=sr)
+                fig = plt.figure(figsize=(10, 2))
+                fig.set_facecolor('#d1d1e0')
+                plt.title("MFCCs")
+                librosa.display.specshow(mfcc_features, sr=sr, x_axis='time')
+                plt.gca().axes.get_yaxis().set_visible(False)
+                plt.gca().axes.spines["right"].set_visible(False)
+                plt.gca().axes.spines["left"].set_visible(False)
+                plt.gca().axes.spines["top"].set_visible(False)
+                st.write(fig)
 
-                with col2:
-                    fig2 = plt.figure(figsize=(10, 2))
-                    fig2.set_facecolor('#d1d1e0')
-                    plt.title("Mel-Spectrogram")
-                    X = librosa.stft(wav)
-                    Xdb = librosa.amplitude_to_db(abs(X))
-                    librosa.display.specshow(Xdb, sr=sr, x_axis='time', y_axis='hz')
-                    plt.gca().axes.get_yaxis().set_visible(False)
-                    plt.gca().axes.spines["right"].set_visible(False)
-                    plt.gca().axes.spines["left"].set_visible(False)
-                    plt.gca().axes.spines["top"].set_visible(False)
-                    st.write(fig2)  
+            with col2:
+                fig2 = plt.figure(figsize=(10, 2))
+                fig2.set_facecolor('#d1d1e0')
+                plt.title("Mel-Spectrogram")
+                X = librosa.stft(wav)
+                Xdb = librosa.amplitude_to_db(abs(X))
+                librosa.display.specshow(
+                    Xdb, sr=sr, x_axis='time', y_axis='hz')
+                plt.gca().axes.get_yaxis().set_visible(False)
+                plt.gca().axes.spines["right"].set_visible(False)
+                plt.gca().axes.spines["left"].set_visible(False)
+                plt.gca().axes.spines["top"].set_visible(False)
+                st.write(fig2)
 
-            with st.container():
-                col1,col2 = st.columns(2)
-                with col1:
-                    chromagram = librosa.feature.chroma_cqt(y=wav, sr=sr)
-                    fig = plt.figure(figsize=(10, 2))
-                    fig.set_facecolor('#d1d1e0')
-                    plt.title("Chromagram Plot")
-                    librosa.display.specshow(chromagram, y_axis='chroma', x_axis='time')
-                    plt.gca().axes.get_yaxis().set_visible(False)
-                    plt.gca().axes.spines["right"].set_visible(False)
-                    plt.gca().axes.spines["left"].set_visible(False)
-                    plt.gca().axes.spines["top"].set_visible(False)
-                    st.write(fig)
+        with st.container():
+            col1, col2 = st.columns(2)
+            with col1:
+                chromagram = librosa.feature.chroma_cqt(y=wav, sr=sr)
+                fig = plt.figure(figsize=(10, 2))
+                fig.set_facecolor('#d1d1e0')
+                plt.title("Chromagram Plot")
+                librosa.display.specshow(
+                    chromagram, y_axis='chroma', x_axis='time')
+                plt.gca().axes.get_yaxis().set_visible(False)
+                plt.gca().axes.spines["right"].set_visible(False)
+                plt.gca().axes.spines["left"].set_visible(False)
+                plt.gca().axes.spines["top"].set_visible(False)
+                st.write(fig)
+                f = get_feature(path)
+                scaler = StandardScaler()
+                f=np.array(f).reshape(1, -1)
+                f = scaler.fit_transform(f)
+                prediction = model.predict(f)
+                print(prediction)
 
-                # with col2:
-                #     tempo, beat_times = librosa.beat.beat_track(y=wav, sr=sr, start_bpm=60, units='time')
-                    
-                #     librosa.display.waveshow(wav, alpha=0.6)
-                #     plt.vlines(beat_times, -1, 1, color='r')
-                #     plt.ylim(-1, 1)
-                #     fig2 = plt.figure(figsize=(10, 2))
-                #     fig2.set_facecolor('#d1d1e0')
-                #     plt.title("Mel-Spectrogram")
-                #     plt.gca().axes.get_yaxis().set_visible(False)
-                #     plt.gca().axes.spines["right"].set_visible(False)
-                #     plt.gca().axes.spines["left"].set_visible(False)
-                #     plt.gca().axes.spines["top"].set_visible(False)
-                #     st.write(fig2)   
+
+
+            # with col2:
+            #     tempo, beat_times = librosa.beat.beat_track(y=wav, sr=sr, start_bpm=60, units='time')
+
+            #     librosa.display.waveshow(wav, alpha=0.6)
+            #     plt.vlines(beat_times, -1, 1, color='r')
+            #     plt.ylim(-1, 1)
+            #     fig2 = plt.figure(figsize=(10, 2))
+            #     fig2.set_facecolor('#d1d1e0')
+            #     plt.title("Mel-Spectrogram")
+            #     plt.gca().axes.get_yaxis().set_visible(False)
+            #     plt.gca().axes.spines["right"].set_visible(False)
+            #     plt.gca().axes.spines["left"].set_visible(False)
+            #     plt.gca().axes.spines["top"].set_visible(False)
+            #     st.write(fig2)
+
 
 if __name__ == '__main__':
     main()
