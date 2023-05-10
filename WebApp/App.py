@@ -18,7 +18,7 @@ import scipy
 import scipy.io.wavfile as wav
 import scipy.io.wavfile
 from scipy.io.wavfile import read
-
+import joblib
 
 
 # librosa is a Python library for analyzing audio and music. It can be used to extract the data from the audio files.
@@ -31,7 +31,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-
+scaler = joblib.load('/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/WebApp/scaler.joblib')
 model = load('/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/rfmodel.joblib')
 # constants
 starttime = datetime.now()
@@ -255,9 +255,9 @@ def main():
             with st.container():
                 f = get_feature(path)
                 print(f)
-                scaler = StandardScaler()
+                
                 #f=np.array([f])
-                f = scaler.fit_transform([f])
+                f = scaler.transform([f])
                 #f=np.array(f).reshape(1, -1)
                 print(f)
                 prediction = model.predict(f)
