@@ -325,7 +325,7 @@ def main():
                         unsafe_allow_html=True)
             st.markdown(f""":speech_balloon: [Aditya Shinde](https://www.linkedin.com/in/aditya-shinde-23ba06202/)""",
                         unsafe_allow_html=True)
-            st.markdown(f""":speech_balloon: [Asher Holder](https://www.linkedin.com/in/asher-holder-526a05173)""",
+            st.markdown(f""":speech_balloon: [Shreyas Kulkarni](https://www.linkedin.com/in/shreyas-kulkarni-958434207/)""",
                         unsafe_allow_html=True)
             st.markdown(f""":speech_balloon: [Asher Holder](https://www.linkedin.com/in/asher-holder-526a05173)""",
                         unsafe_allow_html=True)
