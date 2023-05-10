@@ -127,8 +127,8 @@ def main():
     with st.sidebar:
         st.image(side_img, width=300)
     st.sidebar.subheader("Menu")
-    website_menu = st.sidebar.selectbox("Menu", ("Stress Detection", "Project description", "Our team",
-                                                 "Leave feedback", "Relax"))
+    website_menu = st.sidebar.selectbox("Menu", ("Stress Detection", "Project description", "Our team"
+                                                ))
     st.set_option('deprecation.showfileUploaderEncoding', False)
     if website_menu == "Stress Detection":
         st.markdown("## Upload the file")
