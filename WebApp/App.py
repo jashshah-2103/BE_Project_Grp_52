@@ -315,7 +315,7 @@ def main():
         col1, col2 = st.columns([3, 2])
         with col1:
             st.info("jashshah2103@gmail.com")
-            st.info("talbaram3192@gmail.com")
+            st.info("adityashinde2722@gmail.com")
             st.info("asherholder123@gmail.com")
             st.info("asherholder123@gmail.com")
         with col2:
@@ -323,7 +323,7 @@ def main():
             st.image(liimg)
             st.markdown(f""":speech_balloon: [Jash Shah](https://www.linkedin.com/in/jashshah-2103/)""",
                         unsafe_allow_html=True)
-            st.markdown(f""":speech_balloon: [Tal Baram](https://www.linkedin.com/in/tal-baram-b00b66180)""",
+            st.markdown(f""":speech_balloon: [Aditya Shinde](https://www.linkedin.com/in/aditya-shinde-23ba06202/)""",
                         unsafe_allow_html=True)
             st.markdown(f""":speech_balloon: [Asher Holder](https://www.linkedin.com/in/asher-holder-526a05173)""",
                         unsafe_allow_html=True)
