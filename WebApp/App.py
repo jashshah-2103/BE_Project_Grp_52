@@ -316,7 +316,7 @@ def main():
         with col1:
             st.info("jashshah2103@gmail.com")
             st.info("adityashinde2722@gmail.com")
-            st.info("asherholder123@gmail.com")
+            st.info("kulkarnishreyas122@gmail.com")
             st.info("asherholder123@gmail.com")
         with col2:
             liimg = Image.open("Images/LI-Logo.png")
