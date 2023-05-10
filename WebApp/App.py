@@ -317,7 +317,7 @@ def main():
             st.info("jashshah2103@gmail.com")
             st.info("adityashinde2722@gmail.com")
             st.info("kulkarnishreyas122@gmail.com")
-            st.info("asherholder123@gmail.com")
+            st.info("137ashu@gmail.com")
         with col2:
             liimg = Image.open("Images/LI-Logo.png")
             st.image(liimg)
@@ -327,7 +327,7 @@ def main():
                         unsafe_allow_html=True)
             st.markdown(f""":speech_balloon: [Shreyas Kulkarni](https://www.linkedin.com/in/shreyas-kulkarni-958434207/)""",
                         unsafe_allow_html=True)
-            st.markdown(f""":speech_balloon: [Asher Holder](https://www.linkedin.com/in/asher-holder-526a05173)""",
+            st.markdown(f""":speech_balloon: [Ashutosh Thite](https://www.linkedin.com/in/ashutosh-thite/)""",
                         unsafe_allow_html=True)
 
 if __name__ == '__main__':
