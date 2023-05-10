@@ -80,17 +80,6 @@ def save_audio(file):
     return 0
 
 
-def get_melspec(audio):
-    y, sr = librosa.load(audio, sr=44100)
-    X = librosa.stft(y)
-    Xdb = librosa.amplitude_to_db(abs(X))
-    img = np.stack((Xdb,) * 3, -1)
-    img = img.astype(np.uint8)
-    grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    grayImage = cv2.resize(grayImage, (224, 224))
-    rgbImage = np.repeat(grayImage[..., np.newaxis], 3, -1)
-    return (rgbImage, Xdb)
-
 
 
 
@@ -261,12 +250,19 @@ def main():
                     plt.gca().axes.spines["left"].set_visible(False)
                     plt.gca().axes.spines["top"].set_visible(False)
                     st.write(fig)
-                    f = get_feature(path)
-                    scaler = StandardScaler()
-                    f=np.array(f).reshape(1, -1)
-                    f = scaler.fit_transform(f)
-                    prediction = model.predict(f)
-                    print(prediction)
+                    
+            st.markdown("## Predictions...")
+            with st.container():
+                f = get_feature(path)
+                print(f)
+                scaler = StandardScaler()
+                #f=np.array([f])
+                f = scaler.fit_transform([f])
+                #f=np.array(f).reshape(1, -1)
+                print(f)
+                prediction = model.predict(f)
+                print(prediction)
+                st.subheader("The Predicted output is:  "+prediction[0])
 
 
 
