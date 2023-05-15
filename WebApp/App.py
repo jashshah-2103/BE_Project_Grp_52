@@ -1,5 +1,5 @@
 import streamlit as st
-import cv2
+#import cv2
 from tensorflow.keras.models import load_model
 import streamlit.components.v1 as components
 from PIL import Image
