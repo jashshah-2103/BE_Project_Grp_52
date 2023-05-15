@@ -262,7 +262,14 @@ def main():
                 print(f)
                 prediction = model.predict(f)
                 print(prediction)
-                st.subheader("The Predicted output is:  "+prediction[0])
+                st.subheader("The Predicted output is: "+prediction[0])
+                # if(prediction[0]=='stressed'):
+                #     st.subheader("The Predicted output is: red[Stressed] ")
+                # elif(prediction[0]=='neutral'):
+                #     st.subheader("The Predicted output is: blue[Neutral] ")
+                # else:
+                #     st.subheader("The Predicted output is: green[Unstressed] ")
+                
 
 
 
