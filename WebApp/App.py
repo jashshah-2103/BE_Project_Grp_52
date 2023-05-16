@@ -329,7 +329,7 @@ def main():
             st.info("kulkarnishreyas122@gmail.com")
             st.info("137ashu@gmail.com")
         with col2:
-            liimg = Image.open("Images/LI-Logo.png")
+            liimg = Image.open("WebApp/Images/LI-Logo.png")
             st.image(liimg)
             st.markdown(f""":speech_balloon: [Jash Shah](https://www.linkedin.com/in/jashshah-2103/)""",
                         unsafe_allow_html=True)
