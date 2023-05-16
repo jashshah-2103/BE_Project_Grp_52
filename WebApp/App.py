@@ -123,7 +123,7 @@ def get_feature(path):
 
 
 def main():
-    side_img = Image.open("Images/emotion3.jpg")
+    side_img = Image.open("WebApp/Images/emotion3.jpg")
     with st.sidebar:
         st.image(side_img, width=300)
     st.sidebar.subheader("Menu")
@@ -168,7 +168,7 @@ def main():
                         st.error("Unknown error")
                 else:
                     if st.button("Try test file"):
-                        p1 = "/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/audio_dataset_final/Aditya1S1_angry.wav"
+                        p1 = "audio_dataset_final/Aditya1S1_angry.wav"
                         samplerate, data = read(p1)
 
                         trimmed_file = data[np.absolute(data) > 50]
