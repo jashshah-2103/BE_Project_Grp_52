@@ -25,3 +25,10 @@ scikit-learn
 #joblib==1.2.0
 #pydub==0.25.1
 #scikit-learn==1.2.2
+
+
+pipenv install plotly
+pipenv install librosa
+pipenv install joblib
+pipenv install pydub
+pipenv install scikit-learn

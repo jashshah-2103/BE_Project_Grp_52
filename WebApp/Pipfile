@@ -5,6 +5,16 @@ name = "pypi"
 
 [packages]
 streamlit = "*"
+tensorflow = "*"
+numpy = "*"
+pandas = "*"
+matplotlib = "*"
+pillow = "*"
+plotly = "*"
+librosa = "*"
+joblib = "*"
+pydub = "*"
+scikit-learn = "*"
 
 [dev-packages]
 
