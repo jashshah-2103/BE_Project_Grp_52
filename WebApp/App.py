@@ -313,7 +313,7 @@ def main():
             This web-application is a part of the final year project. 
            
             """
-        img = Image.open("Images/datasetdesc.png")
+        img = Image.open("WebApp/Images/datasetdesc.png")
     
         st.image(img, width=300)
 
