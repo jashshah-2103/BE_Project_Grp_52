@@ -163,9 +163,9 @@ def main():
                         trimmed_file = data[np.absolute(data) > 50]
 
                         scipy.io.wavfile.write(
-                            "WebApp/converted_trimmed_"+path, samplerate, trimmed_file)
+                            "WebApp/trimmed_converted_"+path, samplerate, trimmed_file)
                         p1 = path
-                        path = "WebApp/converted_trimmed_trimmed_"+path
+                        path = "WebApp/trimmed_converted_"+path
                         
                     else:
                         st.error("Unknown error")
