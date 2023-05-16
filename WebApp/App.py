@@ -156,16 +156,16 @@ def main():
                         st.audio(audio_file, format='audio/wav', start_time=0)
                         #audio/
                         audioo = AudioSegment.from_file(path)
-                        audioo.export("converted_"+path, format="wav")
-                        path="converted_"+path
-                        samplerate, data = read(path)
+                        audioo.export("WebApp/converted_"+path, format="wav")
+                        #path="WebApp/converted_"+path
+                        samplerate, data = read("WebApp/converted_"+path)
 
                         trimmed_file = data[np.absolute(data) > 50]
 
                         scipy.io.wavfile.write(
-                            "trimmed_"+path, samplerate, trimmed_file)
+                            "WebApp/converted_trimmed_"+path, samplerate, trimmed_file)
                         p1 = path
-                        path = "trimmed_"+path
+                        path = "WebApp/converted_trimmed_trimmed_"+path
                         
                     else:
                         st.error("Unknown error")
