@@ -31,8 +31,8 @@ import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-scaler = joblib.load('/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/WebApp/scaler.joblib')
-model = load('/Users/jashshah/Documents/GitHub/BE_Project_Grp_52/rfmodel.joblib')
+scaler = joblib.load('scaler.joblib')
+model = load('BE_Project_Grp_52/rfmodel.joblib')
 # constants
 starttime = datetime.now()
 
