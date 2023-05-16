@@ -143,6 +143,9 @@ def main():
                 if audio_file is not None:
                     if not os.path.exists("audio"):
                         os.makedirs("audio")
+                        os.makedirs("converted_audio")
+                        os.makedirs("trimmed_converted_audio")
+                        
                     path = os.path.join("audio", audio_file.name)
                     if_save_audio = save_audio(audio_file)
                     if if_save_audio == 1:
@@ -152,17 +155,17 @@ def main():
                         # display audio
                         st.audio(audio_file, format='audio/wav', start_time=0)
                         #audio/
-                        # audioo = AudioSegment.from_file(path)
-                        # audioo.export("converted_"+path, format="wav")
-                        # path="converted_"+path
-                        # samplerate, data = read(path)
+                        audioo = AudioSegment.from_file(path)
+                        audioo.export("converted_"+path, format="wav")
+                        path="converted_"+path
+                        samplerate, data = read(path)
 
-                        # trimmed_file = data[np.absolute(data) > 50]
+                        trimmed_file = data[np.absolute(data) > 50]
 
-                        # scipy.io.wavfile.write(
-                        #     "trimmed_"+path, samplerate, trimmed_file)
-                        # p1 = path
-                        # path = "trimmed_"+path
+                        scipy.io.wavfile.write(
+                            "trimmed_"+path, samplerate, trimmed_file)
+                        p1 = path
+                        path = "trimmed_"+path
                         
                     else:
                         st.error("Unknown error")
