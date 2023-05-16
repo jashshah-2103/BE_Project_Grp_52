@@ -15,6 +15,7 @@ librosa = "*"
 joblib = "*"
 pydub = "*"
 scikit-learn = "*"
+seaborn = "*"
 
 [dev-packages]
 
