@@ -139,11 +139,11 @@ def main():
             # audio_file = None
             # path = None
             with col1:
-                audio_file = audio_recorder()
-                if audio_file:
-                    st.audio(audio_file, format="audio/wav")
-                # audio_file = st.file_uploader(
-                #     "Upload audio file", type=['wav'])
+                # audio_file = audio_recorder()
+                # if audio_file:
+                #     st.audio(audio_file, format="audio/wav")
+                audio_file = st.file_uploader(
+                    "Upload audio file", type=['wav'])
                 if audio_file is not None:
                     if not os.path.exists("audio"):
                         os.makedirs("audio")
