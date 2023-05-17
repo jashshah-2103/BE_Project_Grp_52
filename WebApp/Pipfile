@@ -16,6 +16,7 @@ joblib = "*"
 pydub = "*"
 scikit-learn = "*"
 seaborn = "*"
+audio-recorder-streamlit = "*"
 
 [dev-packages]
 

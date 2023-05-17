@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0bc5ca67ef2f4cba21ef9633f0b8901ef7290349ec706b213210c0354b1babe8"
+            "sha256": "292852fa0dd4fd993eb53fd73a7ff7fbe37849c24203aa25e203de8eb7071f29"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -53,6 +53,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==23.1.0"
+        },
+        "audio-recorder-streamlit": {
+            "hashes": [
+                "sha256:c7f2fba58e55535830dc203418ab9b29aff3baf3248a219f6ef31d775ce44c3c",
+                "sha256:f7253b9291a040769188ae76e7b1dd27d7004f87691af73a848d939d673e2ec3"
+            ],
+            "index": "pypi",
+            "version": "==0.0.8"
         },
         "audioread": {
             "hashes": [

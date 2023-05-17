@@ -20,6 +20,7 @@ import scipy.io.wavfile
 from scipy.io.wavfile import read
 import joblib
 
+from audio_recorder_streamlit import audio_recorder
 
 # librosa is a Python library for analyzing audio and music. It can be used to extract the data from the audio files.
 import librosa
@@ -138,8 +139,11 @@ def main():
             # audio_file = None
             # path = None
             with col1:
-                audio_file = st.file_uploader(
-                    "Upload audio file", type=['wav'])
+                audio_file = audio_recorder()
+                if audio_file:
+                    st.audio(audio_file, format="audio/wav")
+                # audio_file = st.file_uploader(
+                #     "Upload audio file", type=['wav'])
                 if audio_file is not None:
                     if not os.path.exists("audio"):
                         os.makedirs("audio")
